@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Добавить расписание
+{% endblock title %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Добавление расписания</h1>
+    <form method="post">
+        <textarea name="name" id="name" placeholder="Введите название предмета" class="form-control"></textarea><br>
+        <textarea name="type" id="type" placeholder="Введите тип предмета" class="form-control"></textarea><br>
+        <textarea name="place" id="place" placeholder="Введите место проведения" class="form-control"></textarea><br>
+        <textarea name="teacher" id="teacher" placeholder="Введите имя преподавателя" class="form-control"></textarea><br>
+        <input type="date" name="date" id="date">
+        <textarea name="how_often" id="how_often" class="form-control"></textarea><br>
+        <input type="submit" class="btn btn-success" value="Отправить">
+    </form>
+</div>
+{% endblock body %}

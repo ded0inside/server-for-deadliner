@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Добавить дедлайн
+{% endblock title %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Добавление дедлайн</h1>
+    <form method="post">
+        <textarea name="subject" id="subject" placeholder="Введите название предмета" class="form-control"></textarea><br>
+        <textarea name="description" id="description" placeholder="Введите описание дедлайна" class="form-control"></textarea><br>
+        <textarea name="date" id="date" placeholder="Введите дату" class="form-control"></textarea><br>
+        <input type="submit" class="btn btn-success" value="Отправить">
+    </form>
+</div>>
+{% endblock body %}
