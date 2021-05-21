@@ -7,14 +7,14 @@
 {% block body %}
 
 <div class="container mt-5">
-    <h1>Расписание</h1>
+    <h1>Дедлайны</h1>
 
-    {% for el in schedule %}
+    {% for el in deadline %}
     <div class="alert alert-info">
-        <h2>{{ el.name }}</h2>
-        <p>{{ el.type }}</p>
+        <h2>{{ el.subject }}</h2>
+        <p>{{ el.description }}</p>
         <p><b> Дата: {{ el.date }}  </b></p>
-        <a href="/schedule/{{ el.id }}" class="btn btn-warning">Детальнее</a>
+        <a href="/deadline/{{ el.id }}" class="btn btn-warning">Детальнее</a>
     </div>
     {% endfor %}
 

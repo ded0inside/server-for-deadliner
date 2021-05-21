@@ -15,7 +15,7 @@ class Schedule(db.Model):
     type = db.Column(db.String(300))
     place = db.Column(db.String(300))
     teacher = db.Column(db.String(300))
-    date = db.Column(db.String(200))
+    date = db.Column(db.Integer)
     how_often = db.Column(db.Integer)
 
     def __repr__(self):
@@ -91,12 +91,11 @@ def create_schedule():
         how_often = request.form['how_often']
 
         d = date.split('-')
-        print(d)
         day = int(d[2])
         month = int(d[1])
         year = int(d[0])
         date_in_datetime = datetime(year, month, day)
-        unix_time = time.mktime(date_in_datetime.timetuple())
+        unix_time = int(time.mktime(date_in_datetime.timetuple()))
 
         schedule = Schedule(name=name, type=type, place=place, date=unix_time, teacher=teacher, how_often=int(how_often))
 
@@ -118,7 +117,14 @@ def create_deadlines():
         description = request.form['description']
         date = request.form['date']
 
-        deadline = Deadline(subject=subject, description=description,date=date)
+        d = date.split('-')
+        day = int(d[2])
+        month = int(d[1])
+        year = int(d[0])
+        date_in_datetime = datetime(year, month, day)
+        unix_time = int(time.mktime(date_in_datetime.timetuple()))
+
+        deadline = Deadline(subject=subject, description=description, date=unix_time)
 
         try:
             db.session.add(deadline)
@@ -137,6 +143,58 @@ def schedule():
     schedule = Schedule.query.all()
 
     return render_template('schedule.html', schedule=schedule)
+
+
+@app.route('/schedule/<int:id>')
+def schedule_detail(id):
+
+    schedule_detail = Schedule.query.get(id)
+
+    return render_template('schedule_detail.html', schedule_detail=schedule_detail)
+
+
+@app.route('/schedule/<int:id>/delete')
+def schedule_delete(id):
+
+    schedule_detail = Schedule.query.get_or_404(id)
+
+    try:
+        db.session.delete(schedule_detail)
+        db.session.commit()
+        return redirect('/schedule')
+
+    except:
+        return 'Something goes wrong'
+
+
+@app.route('/deadlines')
+def deadline():
+
+    deadline = Deadline.query.all()
+
+    return render_template('deadline.html', deadline=deadline)
+
+
+@app.route('/deadline/<int:id>')
+def deadline_detail(id):
+
+    deadline_detail = Deadline.query.get(id)
+
+    return render_template('deadline_detail.html', deadline_detail=deadline_detail)
+
+
+@app.route('/deadline/<int:id>/delete')
+def deadline_delete(id):
+
+    deadline_detail = Schedule.query.get_or_404(id)
+
+    try:
+        db.session.delete(deadline_detail)
+        db.session.commit()
+        return redirect('/deadline')
+
+    except:
+        return 'Something goes wrong'
 
 if __name__ == '__main__':
     app.run(debug=True)
