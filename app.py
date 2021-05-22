@@ -8,6 +8,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///server.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+
 class Deadline(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     subject = db.Column(db.String(300))
@@ -25,6 +26,7 @@ class Deadline(db.Model):
             'date': self.date,
         }
         return data
+
 
 class Schedule(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -172,14 +174,14 @@ def deadline():
 
 @app.route('/deadline/<int:id>')
 def deadline_detail(id):
-    deadline_detail = Deadline.query.get(id)
+    deadline_detail = Deadline.query.get_or_404(id)
 
     return render_template('deadline_detail.html', deadline_detail=deadline_detail)
 
 
 @app.route('/deadline/<int:id>/delete')
 def deadline_delete(id):
-    deadline_detail = Schedule.query.get_or_404(id)
+    deadline_detail = Deadline.query.get(id)
 
     try:
         db.session.delete(deadline_detail)
